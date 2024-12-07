@@ -1,0 +1,1 @@
+# Parcial-Logico---Vazquez-Ca-oto-Tadeo
