@@ -59,19 +59,19 @@ sublista([_|Cola], Sublista):-sublista(Cola,Sublista).
 sublista([Cabeza|Cola],[Cabeza|Sublista]):-sublista(Cola,Sublista).
 
 opcionesDeCompra(Dinero, DueniosDePropiedades, Resto):-
-    opcionesDePropiedades(DueniosDePropiedades),
-    puedoComprarLasPropiedades(Dinero, DueniosDePropiedades, Resto).
+    posiblesPropiedades(DueniosDePropiedades),
+    valorDeLasPropiedades(DueniosDePropiedades, ValorTotal),
+    Dinero > ValorTotal,
+    Resto is Dinero - ValorTotal.
     
-opcionesDePropiedades(CombinacionesDeDuenios):-       
+posiblesPropiedades(CombinacionesDeDuenios):-       
     findall(Persona, vive(Persona, _), TodosLosDuenios),
     sublista(TodosLosDuenios, CombinacionesDeDuenios).
     
-puedoComprarLasPropiedades(Dinero, DueniosDePropiedades, RestoDeDinero):-
+valorDeLasPropiedades(DueniosDePropiedades, ValorTotal):-
     findall(Valor, valorDeCadaPropiedad(DueniosDePropiedades, Valor), ValorPorPropiedad),
-    sum_list(ValorPorPropiedad, ValorTotal),
-    Dinero > ValorTotal,
-    RestoDeDinero is Dinero - ValorTotal.
-    
+    sum_list(ValorPorPropiedad, ValorTotal).
+
 valorDeCadaPropiedad(Duenios, ValorPorPropiedad):-
     member(Duenio, Duenios), 
     tasacion(Duenio, ValorPorPropiedad).
